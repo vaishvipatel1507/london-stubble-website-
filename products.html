@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products – London Stubble</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== PRODUCT LIST PAGE ===== */
+    .prods-section { background: var(--cream); padding: 100px 56px; }
+    .prods-inner   { max-width: 1200px; margin: 0 auto; }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 52px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid rgba(0,0,0,0.1);
+      background: transparent;
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover,
+    .filter-btn.active { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+    /* Detailed product rows */
+    .prod-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .prod-row:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+    .prod-row:nth-child(even) .prod-row-img { order: 2; }
+    .prod-row:nth-child(even) .prod-row-body { order: 1; }
+
+    .prod-row-img {
+      background: var(--dark);
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .prod-row-badge {
+      position: absolute;
+      top: 20px; left: 20px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 5px 12px;
+    }
+    .prod-row-cat {
+      position: absolute;
+      bottom: 20px; right: 20px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .prod-row-body { padding: 44px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .prod-row-ey {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px; display: block;
+    }
+    .prod-row-name { font-weight: 700; font-size: 26px; color: var(--dark); line-height: 1.2; margin-bottom: 8px; }
+    .prod-row-vol  { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .prod-row-desc { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.85; margin-bottom: 28px; }
+
+    .prod-row-feats-title {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dark); margin-bottom: 14px;
+    }
+    .prod-row-feats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      margin-bottom: 24px;
+    }
+    .prod-row-feat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--dark);
+    }
+    .prod-row-feat::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .prod-how-title {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dark); margin-bottom: 10px; margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .prod-how-text {
+      font-size: 12px; font-weight: 300;
+      color: var(--muted); line-height: 1.75;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .prod-row-cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .prod-row-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--dark);
+      letter-spacing: 0.05em;
+    }
+
+    /* Amazon bullet points */
+    .prod-bullets { list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 10px; }
+    .prod-bullets li { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.7; padding-left: 18px; position: relative; }
+    .prod-bullets li::before { content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+    .prod-bullets li strong { color: var(--dark); font-weight: 600; }
+
+    /* Product spec table */
+    .prod-spec-table { width: 100%; border-collapse: collapse; margin: 18px 0 24px; font-size: 12px; }
+    .prod-spec-table tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .prod-spec-table tr:last-child { border-bottom: none; }
+    .prod-spec-table td { padding: 9px 0; vertical-align: top; }
+    .prod-spec-table td:first-child { font-weight: 600; color: var(--dark); width: 44%; letter-spacing: 0.03em; }
+    .prod-spec-table td:last-child { color: var(--muted); font-weight: 300; }
+
+    /* Spread-out image for collagen product */
+    .prod-row-img.img-cover img { object-fit: cover !important; }
+
+    @media (max-width: 1100px) {
+      .prod-row { grid-template-columns: 1fr; }
+      .prod-row:nth-child(even) .prod-row-img,
+      .prod-row:nth-child(even) .prod-row-body { order: unset; }
+      .prod-row-img { aspect-ratio: 1 / 1; }
+    }
+    @media (max-width: 900px) {
+      .prods-section { padding: 80px 24px; }
+      .prod-row-body { padding: 32px 28px; }
+      .prod-row-feats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo" style="display:flex;align-items:center;"><img src="https://vaishvipatel1507.github.io/london-stubble-website-/logo.png" alt="London Stubble" style="height:80px;width:auto;" /></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="brand-style.html">Brand Style</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="about-us.html">About Us</a></li>
+  </ul>
+  <a href="products.html" class="nav-cta">Shop Now</a>
+  <button class="hamburger" id="ham" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-nav" id="mob">
+  <a href="index.html"       onclick="closeMob()">Home</a>
+  <a href="brand-style.html" onclick="closeMob()">Brand Style</a>
+  <a href="categories.html"  onclick="closeMob()">Categories</a>
+  <a href="products.html"    onclick="closeMob()">Products</a>
+  <a href="about-us.html"    onclick="closeMob()">About Us</a>
+</div>
+
+<!-- ==================== PAGE HEADER ==================== -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <span class="cur">Products</span>
+    </div>
+    <span class="page-header-ey">The Full Range</span>
+    <h1 class="page-header-title">Our <span>Products</span></h1>
+    <p class="page-header-sub">Four core products that cover your entire grooming routine&mdash;from face to beard.</p>
+  </div>
+</header>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker-section">
+  <div class="tk-track">
+    <span class="tk-i">Daily Cleanse Face Wash</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Hydrate &amp; Repair Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Beard Softening Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Beard Growth Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean Formulas</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium Ingredients</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Daily Cleanse Face Wash</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Hydrate &amp; Repair Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Beard Softening Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Beard Growth Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean Formulas</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium Ingredients</span><span class="tk-d">&#10022;</span>
+  </div>
+</div>
+
+<!-- ==================== PRODUCTS LIST ==================== -->
+<section class="prods-section">
+  <div class="prods-inner">
+
+    <div class="sec-hdr au">
+      <div>
+        <span class="eyebrow">Complete Range</span>
+        <h2 class="section-title">All <span class="g">Products</span></h2>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Face Wash</button>
+        <button class="filter-btn">Face Serum</button>
+        <button class="filter-btn">Beard Serum</button>
+      </div>
+    </div>
+
+    <!-- ---- Product 1: Activated Charcoal & Neem Face Wash ---- -->
+    <div class="prod-row au" id="face-wash">
+      <div class="prod-row-img">
+        <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image1.jpeg" alt="Activated Charcoal & Neem Face Wash" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        <span class="prod-row-badge">Best Seller</span>
+        <span class="prod-row-cat">Face Wash</span>
+      </div>
+      <div class="prod-row-body">
+        <span class="prod-row-ey">Face Wash &mdash; 100ml</span>
+        <h2 class="prod-row-name">Activated Charcoal &amp; Neem Face Wash</h2>
+        <div class="prod-row-vol">100ml &nbsp;&middot;&nbsp; Daily Use</div>
+        <p class="prod-row-desc">Removes dirt, oil &amp; impurities without drying your skin. Powered by activated charcoal to deep&#8209;cleanse pores and neem extract to fight bacteria&mdash;leaving your face clean, fresh, and balanced every single day. Sulphate&#8209;free &amp; derma&#8209;tested.</p>
+
+        <div class="prod-row-feats-title">Key Benefits</div>
+        <div class="prod-row-feats">
+          <div class="prod-row-feat">Deep pore cleansing</div>
+          <div class="prod-row-feat">Activated charcoal</div>
+          <div class="prod-row-feat">Neem antibacterial</div>
+          <div class="prod-row-feat">Sulphate&#8209;free</div>
+          <div class="prod-row-feat">Non&#8209;drying formula</div>
+          <div class="prod-row-feat">All skin types</div>
+        </div>
+
+        <div class="prod-how-title">How To Use</div>
+        <p class="prod-how-text">"Wet face, apply a small amount and massage in circular motions. Rinse thoroughly. Use morning and night for best results."</p>
+
+        <div class="prod-row-cta">
+          <button class="btn-gold">Add to Cart</button>
+          <a href="categories.html#face-wash" class="btn-lined">View Category</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Product 2: Collagen Peptide Serum Face Wash ---- -->
+    <div class="prod-row au" id="collagen-face-wash">
+      <div class="prod-row-img img-cover">
+        <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image2.jpg" alt="London Stubble Collagen Peptide Serum Face Wash" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
+        <span class="prod-row-badge">New Drop</span>
+        <span class="prod-row-cat">Face Wash</span>
+      </div>
+      <div class="prod-row-body">
+        <span class="prod-row-ey">Face Wash &mdash; 100ml &nbsp;&middot;&nbsp; Active Ingredient: Collagen Peptides</span>
+        <h2 class="prod-row-name">London Stubble Collagen Peptide Serum Face Wash</h2>
+        <div class="prod-row-vol">100ml &nbsp;&middot;&nbsp; Normal, Oily &amp; Combination Skin &nbsp;&middot;&nbsp; Scent: Clean, Fresh</div>
+
+        <ul class="prod-bullets">
+          <li><strong>COLLAGEN PEPTIDE FORMULA:</strong> Infused with collagen peptides to visibly reduce wrinkles and boost skin firmness for a youthful, smoother complexion.</li>
+          <li><strong>PURE SKIN ILLUMINATION:</strong> Brightens and illuminates the skin with every wash, leaving your face looking radiant, refreshed, and evenly toned.</li>
+          <li><strong>CRYSTAL FOAM TECHNOLOGY:</strong> Produces a rich crystal foam that deeply cleanses pores, removing impurities and excess oil whilst keeping skin soft and hydrated.</li>
+          <li><strong>SUITABLE FOR MULTIPLE SKIN TYPES:</strong> Specially formulated for normal, oily, and combination skin, making it a versatile addition to any daily skincare routine.</li>
+          <li><strong>DAILY SKINCARE ESSENTIAL:</strong> Gentle enough for everyday use while delivering powerful cleansing results, helping maintain healthy and refreshed skin throughout the day.</li>
+        </ul>
+
+        <div class="prod-row-feats-title">Key Benefits</div>
+        <div class="prod-row-feats">
+          <div class="prod-row-feat">Reduces Wrinkles</div>
+          <div class="prod-row-feat">Boosts Skin Firmness</div>
+          <div class="prod-row-feat">Brightens Skin</div>
+          <div class="prod-row-feat">Deep Cleansing</div>
+          <div class="prod-row-feat">Hydrating</div>
+          <div class="prod-row-feat">Pure Skin Illumination</div>
+        </div>
+
+        <div class="prod-row-feats-title" style="margin-top:20px;">Product Details</div>
+        <table class="prod-spec-table">
+          <tr><td>Brand</td><td>London Stubble</td></tr>
+          <tr><td>Item Weight</td><td>120 Grams</td></tr>
+          <tr><td>Dimensions</td><td>45 &times; 45 &times; 110 mm</td></tr>
+          <tr><td>Scent</td><td>Clean, Fresh</td></tr>
+          <tr><td>Skin Type</td><td>Combination, Normal, Oily</td></tr>
+          <tr><td>Active Ingredient</td><td>Collagen Peptides</td></tr>
+          <tr><td>Special Feature</td><td>Collagen Peptide Infused, Crystal Foam Formula, Pure Skin Illumination, Reduces Wrinkles</td></tr>
+          <tr><td>Package Quantity</td><td>1</td></tr>
+        </table>
+
+        <div class="prod-how-title">How To Use</div>
+        <p class="prod-how-text">"Apply a small amount onto a wet face, massage gently in circular motions, rinse with water, and pat dry. Use morning and evening for visible anti&#8209;ageing results."</p>
+
+        <div class="prod-row-cta">
+          <button class="btn-gold">Add to Cart</button>
+          <a href="categories.html#face-wash" class="btn-lined">View Category</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Product 3: Hydrate & Repair Face Serum ---- -->
+    <div class="prod-row au" id="face-serum">
+      <div class="prod-row-img">
+        <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image4.jpg" alt="Hydrate & Repair Face Serum" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        <span class="prod-row-badge">Top Rated</span>
+        <span class="prod-row-cat">Face Serum</span>
+      </div>
+      <div class="prod-row-body">
+        <span class="prod-row-ey">Face Serum &mdash; 30ml</span>
+        <h2 class="prod-row-name">Hydrate &amp; Repair Face Serum</h2>
+        <div class="prod-row-vol">30ml &nbsp;&middot;&nbsp; Lightweight Formula</div>
+        <p class="prod-row-desc">Brightens, hydrates, and smooths tired, dull skin. Powered by Niacinamide &amp; Vitamin C, this lightweight fast&#8209;absorbing serum targets uneven skin tone, fades pigmentation, and reduces dark spots&mdash;while being safe for all skin types.</p>
+
+        <div class="prod-row-feats-title">Key Benefits</div>
+        <div class="prod-row-feats">
+          <div class="prod-row-feat">Boosts deep hydration</div>
+          <div class="prod-row-feat">Fades dark spots</div>
+          <div class="prod-row-feat">Reduces pores</div>
+          <div class="prod-row-feat">Evens skin tone</div>
+          <div class="prod-row-feat">Fast&#8209;absorbing</div>
+          <div class="prod-row-feat">Post&#8209;shave friendly</div>
+        </div>
+
+        <div class="prod-how-title">How To Use</div>
+        <p class="prod-how-text">"Apply 2&ndash;3 drops after cleansing, before moisturiser. Gently press into skin until fully absorbed. Use morning and night."</p>
+
+        <div class="prod-row-cta">
+          <button class="btn-gold">Add to Cart</button>
+          <a href="categories.html#face-serum" class="btn-lined">View Category</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- Product 4: Beard Softening & Growth Serum ---- -->
+    <div class="prod-row au" id="beard-serum">
+      <div class="prod-row-img">
+        <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image3.jpg" alt="Beard Softening & Growth Serum" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        <span class="prod-row-badge">Fan Favourite</span>
+        <span class="prod-row-cat">Beard Serum</span>
+      </div>
+      <div class="prod-row-body">
+        <span class="prod-row-ey">Beard Serum &mdash; 30ml</span>
+        <h2 class="prod-row-name">Beard Softening &amp; Growth Serum</h2>
+        <div class="prod-row-vol">30ml &nbsp;&middot;&nbsp; For All Beard Lengths</div>
+        <p class="prod-row-desc">Reduces itch, softens beard hair, and adds natural healthy shine from root to tip. Formulated with Jojoba Oil &amp; Peptide Complex to nourish the skin underneath while helping your beard look visibly fuller and healthier over time.</p>
+
+        <div class="prod-row-feats-title">Key Benefits</div>
+        <div class="prod-row-feats">
+          <div class="prod-row-feat">Softens coarse hair</div>
+          <div class="prod-row-feat">Jojoba oil nourishing</div>
+          <div class="prod-row-feat">Reduces itch &amp; dryness</div>
+          <div class="prod-row-feat">Natural healthy shine</div>
+          <div class="prod-row-feat">Fuller appearance</div>
+          <div class="prod-row-feat">Stubble to full beard</div>
+        </div>
+
+        <div class="prod-how-title">How To Use</div>
+        <p class="prod-how-text">"Apply a few drops to your beard and massage through evenly from root to tip. Use daily on clean, dry or slightly damp beard."</p>
+
+        <div class="prod-row-cta">
+          <button class="btn-gold">Add to Cart</button>
+          <a href="categories.html#beard-serum" class="btn-lined">View Category</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== STATS ==================== -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stats-header au">
+      <span class="eyebrow gold">Why London Stubble</span>
+      <h2 class="section-title light">Built for <span class="g">Real Men</span></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item au"><div class="stat-num">100%</div><div class="stat-label">Clean Formulas</div><div class="stat-desc">No harmful additives, no shortcuts</div></div>
+      <div class="stat-item au"><div class="stat-num">0</div><div class="stat-label">Harmful Additives</div><div class="stat-desc">Pure, premium ingredients only</div></div>
+      <div class="stat-item au"><div class="stat-num">4.9&#9733;</div><div class="stat-label">Avg Rating</div><div class="stat-desc">Trusted by thousands of men</div></div>
+      <div class="stat-item au"><div class="stat-num">4</div><div class="stat-label">Core Products</div><div class="stat-desc">Everything you need, nothing you don&rsquo;t</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section class="testi-section">
+  <div class="testi-inner">
+    <div class="sec-hdr au">
+      <div>
+        <span class="eyebrow">Customer Reviews</span>
+        <h2 class="section-title">Real <span class="g">Results</span></h2>
+      </div>
+    </div>
+    <div class="testi-grid two-col">
+      <div class="testi-card au">
+        <div class="testi-stars"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+        <p class="testi-quote">My beard has never felt softer. The serum is a game changer.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">J</div>
+          <div><div class="testi-name">James</div><div class="testi-loc">London, UK</div></div>
+        </div>
+      </div>
+      <div class="testi-card au">
+        <div class="testi-stars"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></div>
+        <p class="testi-quote">Face wash smells fresh and leaves my skin clean but not dry.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">D</div>
+          <div><div class="testi-name">Daniel</div><div class="testi-loc">Manchester, UK</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA STRIP ==================== -->
+<div class="vstrip">
+  <div class="vstrip-inner">
+    <span class="vstrip-ey">London Stubble &nbsp;&middot;&nbsp; Est. 2024</span>
+    <h2 class="vstrip-ttl">Grooming Made Simple.<br><span>Results Made Visible.</span></h2>
+    <p class="vstrip-sub">Premium men's grooming essentials crafted in London for the modern man.</p>
+    <div class="vstrip-ctas">
+      <a href="#face-wash" class="btn-gold">Shop Now</a>
+      <a href="about-us.html" class="btn-lined-light">Our Story</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="ft-logo">London Stubble</div>
+      <p class="ft-desc">Premium men's grooming essentials crafted in London for the modern man. Clean formulas, visible results.</p>
+      <div class="ft-soc">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="TikTok">TK</a>
+        <a href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Products</div>
+      <ul>
+        <li><a href="#face-wash">Daily Cleanse Face Wash</a></li>
+        <li><a href="#face-serum">Hydrate &amp; Repair Serum</a></li>
+        <li><a href="#beard-softening">Beard Softening Serum</a></li>
+        <li><a href="#beard-growth">Beard Growth Serum</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Company</div>
+      <ul>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="brand-style.html">Brand Style</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="#">Stockists</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Contact</div>
+      <ul>
+        <li><a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Shipping &amp; Returns</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span class="ft-copy">&copy; 2024 London Stubble. All rights reserved.</span>
+    <span class="ft-tag">Crafted in London &nbsp;&middot;&nbsp; Clean Formulas &nbsp;&middot;&nbsp; Visible Results</span>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+    document.body.style.overflow = mob.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMob() {
+    ham.classList.remove('open'); mob.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.transition = 'opacity 0.75s ease, transform 0.75s ease';
+        el.target.style.opacity = '1'; el.target.style.transform = 'none';
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.au, .al, .ar').forEach(el => observer.observe(el));
+
+  /* Filter buttons */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  function handleNL(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.nl-btn');
+    btn.textContent = 'Subscribed!';
+    btn.style.background = '#4caf50'; btn.style.borderColor = '#4caf50';
+    setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; btn.style.borderColor = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>

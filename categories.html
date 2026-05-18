@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories – London Stubble</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== PAGE SECTIONS ===== */
+    .cats-page { background: var(--cream); padding: 100px 56px; }
+    .cats-page-inner { max-width: 1200px; margin: 0 auto; }
+
+    /* Intro bar */
+    .intro-bar {
+      background: var(--dark);
+      padding: 48px 56px;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+    .intro-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .intro-bar-text {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+      max-width: 620px;
+    }
+    .intro-bar-text strong { color: var(--gold); font-weight: 600; }
+
+    /* Category overview cards (full width) */
+    .cat-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+    .cat-overview-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .cat-overview-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.1); transform: translateY(-4px); }
+    .cat-overview-img {
+      aspect-ratio: 16/9;
+      background: var(--dark);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cat-overview-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 120px;
+      color: rgba(201,168,76,0.08);
+      position: absolute;
+      bottom: -20px;
+      right: 16px;
+      line-height: 1;
+    }
+    .cat-overview-body { padding: 32px 28px; }
+    .cat-overview-label {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: block;
+    }
+    .cat-overview-name { font-weight: 700; font-size: 22px; color: var(--dark); margin-bottom: 12px; }
+    .cat-overview-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
+    .cat-overview-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tag {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--dark);
+      background: var(--cream2); padding: 5px 12px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* Category detail sections */
+    .cat-detail {
+      padding: 80px 56px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .cat-detail:nth-child(even) { background: var(--cream2); }
+    .cat-detail:nth-child(odd)  { background: var(--cream); }
+    .cat-detail-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .cat-detail-inner.reverse { direction: rtl; }
+    .cat-detail-inner.reverse > * { direction: ltr; }
+    .cat-detail-visual {
+      background: var(--dark);
+      aspect-ratio: 4/5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(201,168,76,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-detail-visual-num {
+      position: absolute;
+      bottom: -16px; right: 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 160px;
+      color: rgba(201,168,76,0.05);
+      line-height: 1;
+    }
+    .cat-detail-content {}
+    .cat-detail-heading {
+      font-weight: 700;
+      font-size: clamp(24px, 2.5vw, 36px);
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .cat-detail-heading .g { color: var(--gold); }
+    .cat-detail-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 32px;
+    }
+    .cat-detail-feats { list-style: none; margin-bottom: 36px; }
+    .cat-detail-feats li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      font-size: 13px;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    .cat-detail-feats li::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .cat-detail-feats li span { font-weight: 600; }
+    .cat-prods { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .cat-prod-mini {
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+    .cat-prod-mini:hover { border-color: var(--gold); }
+    .cat-prod-mini-name { font-weight: 600; font-size: 13px; color: var(--dark); margin-bottom: 4px; }
+    .cat-prod-mini-vol  { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+    @media (max-width: 1100px) {
+      .cat-overview-grid { grid-template-columns: 1fr; }
+      .cat-detail-inner { grid-template-columns: 1fr; gap: 40px; }
+      .cat-detail-inner.reverse { direction: ltr; }
+      .cat-detail-visual { display: none; }
+      .cat-prods { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      .cats-page { padding: 80px 24px; }
+      .intro-bar  { padding: 40px 24px; }
+      .intro-bar-inner { flex-direction: column; align-items: flex-start; }
+      .cat-detail { padding: 60px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo" style="display:flex;align-items:center;"><img src="https://vaishvipatel1507.github.io/london-stubble-website-/logo.png" alt="London Stubble" style="height:80px;width:auto;" /></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="brand-style.html">Brand Style</a></li>
+    <li><a href="categories.html" class="active">Categories</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about-us.html">About Us</a></li>
+  </ul>
+  <a href="products.html" class="nav-cta">Shop Now</a>
+  <button class="hamburger" id="ham" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-nav" id="mob">
+  <a href="index.html"       onclick="closeMob()">Home</a>
+  <a href="brand-style.html" onclick="closeMob()">Brand Style</a>
+  <a href="categories.html"  onclick="closeMob()">Categories</a>
+  <a href="products.html"    onclick="closeMob()">Products</a>
+  <a href="about-us.html"    onclick="closeMob()">About Us</a>
+</div>
+
+<!-- ==================== PAGE HEADER ==================== -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <span class="cur">Categories</span>
+    </div>
+    <span class="page-header-ey">Explore The Range</span>
+    <h1 class="page-header-title">Featured <span>Categories</span></h1>
+    <p class="page-header-sub">Three focused categories to keep your grooming routine simple, effective, and easy to stick to.</p>
+  </div>
+</header>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker-section">
+  <div class="tk-track">
+    <span class="tk-i">Face Wash</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Face Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Beard Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean Formulas</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium Ingredients</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Simple Routines</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Face Wash</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Face Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Beard Serum</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean Formulas</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium Ingredients</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Simple Routines</span><span class="tk-d">&#10022;</span>
+  </div>
+</div>
+
+<!-- ==================== INTRO BAR ==================== -->
+<div class="intro-bar">
+  <div class="intro-bar-inner">
+    <p class="intro-bar-text">
+      Each category is focused on a specific part of your routine&mdash;face, skin, and beard. <strong>Three categories. Four products. One complete routine.</strong>
+    </p>
+    <a href="products.html" class="btn-gold">View All Products</a>
+  </div>
+</div>
+
+<!-- ==================== OVERVIEW CARDS ==================== -->
+<section class="cats-page">
+  <div class="cats-page-inner">
+    <div class="sec-hdr au">
+      <div>
+        <span class="eyebrow">All Categories</span>
+        <h2 class="section-title">Browse <span class="g">The Range</span></h2>
+      </div>
+    </div>
+    <div class="cat-overview-grid">
+
+      <div class="cat-overview-card au">
+        <div class="cat-overview-img">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image1.jpeg" alt="Face Wash" style="width:100%;height:100%;object-fit:contain;display:block;" />
+          <span class="cat-overview-num">01</span>
+        </div>
+        <div class="cat-overview-body">
+          <span class="cat-overview-label">Category 01</span>
+          <h3 class="cat-overview-name">Face Wash</h3>
+          <p class="cat-overview-desc">Deep&#8209;cleansing formula for daily freshness without stripping your skin.</p>
+          <div class="cat-overview-tags">
+            <span class="tag">Daily use</span>
+            <span class="tag">Oil &amp; dirt removal</span>
+            <span class="tag">Non-drying</span>
+          </div>
+          <a href="#face-wash" class="cat-link">Explore Category &#8594;</a>
+        </div>
+      </div>
+
+      <div class="cat-overview-card au">
+        <div class="cat-overview-img">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image4.jpg" alt="Face Serum" style="width:100%;height:100%;object-fit:contain;display:block;" />
+          <span class="cat-overview-num">02</span>
+        </div>
+        <div class="cat-overview-body">
+          <span class="cat-overview-label">Category 02</span>
+          <h3 class="cat-overview-name">Face Serum</h3>
+          <p class="cat-overview-desc">Hydration and skin renewal in a lightweight, fast&#8209;absorbing serum.</p>
+          <div class="cat-overview-tags">
+            <span class="tag">Hydrating</span>
+            <span class="tag">Post&#8209;shave friendly</span>
+            <span class="tag">Fast-absorbing</span>
+          </div>
+          <a href="#face-serum" class="cat-link">Explore Category &#8594;</a>
+        </div>
+      </div>
+
+      <div class="cat-overview-card au">
+        <div class="cat-overview-img">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image3.jpg" alt="Beard Serum" style="width:100%;height:100%;object-fit:contain;display:block;" />
+          <span class="cat-overview-num">03</span>
+        </div>
+        <div class="cat-overview-body">
+          <span class="cat-overview-label">Category 03</span>
+          <h3 class="cat-overview-name">Beard Serum</h3>
+          <p class="cat-overview-desc">Softer, healthier, fuller&#8209;looking beard care for stubble and full beards.</p>
+          <div class="cat-overview-tags">
+            <span class="tag">Softening</span>
+            <span class="tag">Fuller appearance</span>
+            <span class="tag">Itch relief</span>
+          </div>
+          <a href="#beard-serum" class="cat-link">Explore Category &#8594;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DETAIL: FACE WASH ==================== -->
+<section class="cat-detail" id="face-wash">
+  <div class="cat-detail-inner">
+    <div class="cat-detail-visual al">
+      <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image1.jpeg" alt="Face Wash" style="width:100%;height:100%;object-fit:contain;display:block;" />
+      <span class="cat-detail-visual-num">01</span>
+    </div>
+    <div class="cat-detail-content ar">
+      <span class="eyebrow">Category 01</span>
+      <h2 class="cat-detail-heading">Daily Cleanse for<br>the <span class="g">Modern Man</span></h2>
+      <p class="cat-detail-sub">Your face deals with pollution, sweat, and excess oil every single day. Our face wash cuts through all of it without stripping your skin of what it needs. Designed for daily use&mdash;morning and night.</p>
+      <ul class="cat-detail-feats">
+        <li><span>Deep cleansing</span> &mdash; removes dirt, oil, and impurities from the first wash</li>
+        <li><span>Non-drying formula</span> &mdash; maintains your skin's natural moisture balance</li>
+        <li><span>Suitable for all skin types</span> &mdash; including sensitive and oily skin</li>
+        <li><span>Fresh scent</span> &mdash; clean without being overpowering</li>
+        <li><span>Builds into a routine</span> &mdash; designed for consistent daily use</li>
+      </ul>
+      <div class="cat-prods">
+        <div class="cat-prod-mini">
+          <div class="cat-prod-mini-name">Daily Cleanse Face Wash</div>
+          <div class="cat-prod-mini-vol">150ml</div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <a href="products.html" class="btn-solid">View Products</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DETAIL: FACE SERUM ==================== -->
+<section class="cat-detail" id="face-serum">
+  <div class="cat-detail-inner reverse">
+    <div class="cat-detail-visual al">
+      <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image4.jpg" alt="Face Serum" style="width:100%;height:100%;object-fit:contain;display:block;" />
+      <span class="cat-detail-visual-num">02</span>
+    </div>
+    <div class="cat-detail-content ar">
+      <span class="eyebrow">Category 02</span>
+      <h2 class="cat-detail-heading">Hydrate, Repair,<br>and <span class="g">Revive Your Skin</span></h2>
+      <p class="cat-detail-sub">A lightweight, fast&#8209;absorbing serum that goes beyond the surface. It hydrates deeply, smooths texture, and targets dullness &mdash; leaving your skin looking sharper and feeling healthier. Works perfectly as a post&#8209;shave step.</p>
+      <ul class="cat-detail-feats">
+        <li><span>Deep hydration</span> &mdash; replenishes moisture at the cellular level</li>
+        <li><span>Smooths skin texture</span> &mdash; visibly reduces rough patches and dullness</li>
+        <li><span>Post-shave friendly</span> &mdash; soothes irritation and redness after shaving</li>
+        <li><span>Lightweight formula</span> &mdash; fast&#8209;absorbing, no greasy residue</li>
+        <li><span>Evens skin tone</span> &mdash; brightens and revives tired-looking skin</li>
+      </ul>
+      <div class="cat-prods">
+        <div class="cat-prod-mini">
+          <div class="cat-prod-mini-name">Hydrate &amp; Repair Face Serum</div>
+          <div class="cat-prod-mini-vol">30ml</div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <a href="products.html" class="btn-solid">View Products</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DETAIL: BEARD SERUM ==================== -->
+<section class="cat-detail" id="beard-serum">
+  <div class="cat-detail-inner">
+    <div class="cat-detail-visual al">
+      <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image3.jpg" alt="Beard Serum" style="width:100%;height:100%;object-fit:contain;display:block;" />
+      <span class="cat-detail-visual-num">03</span>
+    </div>
+    <div class="cat-detail-content ar">
+      <span class="eyebrow">Category 03</span>
+      <h2 class="cat-detail-heading">Softer, Healthier,<br><span class="g">Fuller&#8209;Looking</span> Beard Care</h2>
+      <p class="cat-detail-sub">Whether you&rsquo;re maintaining sharp stubble or growing a full beard, our beard serums work from root to tip. They soften coarse hair, reduce itch, and promote the appearance of a fuller, healthier beard.</p>
+      <ul class="cat-detail-feats">
+        <li><span>Softening formula</span> &mdash; conditions coarse beard hair from the inside out</li>
+        <li><span>Itch relief</span> &mdash; targets the dryness and irritation under the beard</li>
+        <li><span>Fuller appearance</span> &mdash; nourishing oils promote a visibly thicker look</li>
+        <li><span>Natural shine</span> &mdash; adds healthy lustre without greasiness</li>
+        <li><span>Works on all lengths</span> &mdash; stubble to full beard</li>
+      </ul>
+      <div class="cat-prods">
+        <div class="cat-prod-mini">
+          <div class="cat-prod-mini-name">Beard Softening Serum</div>
+          <div class="cat-prod-mini-vol">30ml</div>
+        </div>
+        <div class="cat-prod-mini">
+          <div class="cat-prod-mini-name">Beard Growth Appearance Serum</div>
+          <div class="cat-prod-mini-vol">30ml</div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <a href="products.html" class="btn-solid">View Products</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== STATS ==================== -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stats-header au">
+      <span class="eyebrow gold">By The Numbers</span>
+      <h2 class="section-title light">Clean Formulas, <span class="g">Real Results</span></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item au"><div class="stat-num">3</div><div class="stat-label">Categories</div><div class="stat-desc">Face, skin, and beard covered</div></div>
+      <div class="stat-item au"><div class="stat-num">4</div><div class="stat-label">Core Products</div><div class="stat-desc">A complete daily routine</div></div>
+      <div class="stat-item au"><div class="stat-num">100%</div><div class="stat-label">Clean Formulas</div><div class="stat-desc">No harmful additives</div></div>
+      <div class="stat-item au"><div class="stat-num">4.9&#9733;</div><div class="stat-label">Avg Rating</div><div class="stat-desc">Trusted by thousands</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA STRIP ==================== -->
+<div class="vstrip">
+  <div class="vstrip-inner">
+    <span class="vstrip-ey">London Stubble &nbsp;&middot;&nbsp; Est. 2024</span>
+    <h2 class="vstrip-ttl">Your Complete<br><span>Grooming Routine</span></h2>
+    <p class="vstrip-sub">Four products. Three categories. One effortless daily routine designed for the modern man.</p>
+    <div class="vstrip-ctas">
+      <a href="products.html" class="btn-gold">Shop The Range</a>
+      <a href="about-us.html" class="btn-lined-light">Our Story</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="ft-logo">London Stubble</div>
+      <p class="ft-desc">Premium men's grooming essentials crafted in London for the modern man. Clean formulas, visible results.</p>
+      <div class="ft-soc">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="TikTok">TK</a>
+        <a href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Products</div>
+      <ul>
+        <li><a href="products.html">Daily Cleanse Face Wash</a></li>
+        <li><a href="products.html">Hydrate &amp; Repair Serum</a></li>
+        <li><a href="products.html">Beard Softening Serum</a></li>
+        <li><a href="products.html">Beard Growth Serum</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Company</div>
+      <ul>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="brand-style.html">Brand Style</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="#">Stockists</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Contact</div>
+      <ul>
+        <li><a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Shipping &amp; Returns</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span class="ft-copy">&copy; 2024 London Stubble. All rights reserved.</span>
+    <span class="ft-tag">Crafted in London &nbsp;&middot;&nbsp; Clean Formulas &nbsp;&middot;&nbsp; Visible Results</span>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+    document.body.style.overflow = mob.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMob() {
+    ham.classList.remove('open'); mob.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.transition = 'opacity 0.75s ease, transform 0.75s ease';
+        el.target.style.opacity = '1'; el.target.style.transform = 'none';
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.au, .al, .ar').forEach(el => observer.observe(el));
+  function handleNL(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.nl-btn');
+    btn.textContent = 'Subscribed!';
+    btn.style.background = '#4caf50'; btn.style.borderColor = '#4caf50';
+    setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; btn.style.borderColor = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>

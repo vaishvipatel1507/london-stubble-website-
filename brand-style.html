@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Style Guide – London Stubble</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== PAGE SECTIONS ===== */
+    .content-section { padding: 100px 56px; }
+    .content-inner   { max-width: 1200px; margin: 0 auto; }
+
+    /* Personality traits */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: 52px;
+    }
+    .trait-card {
+      background: var(--dark);
+      border: 1px solid rgba(201,168,76,0.12);
+      padding: 40px 24px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .trait-card:hover { border-color: var(--gold); }
+    .trait-icon {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .trait-name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .trait-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    /* Color palette */
+    .palette-section { background: var(--cream2); }
+    .swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      margin-top: 52px;
+    }
+    .swatch { overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+    .swatch-color { height: 120px; }
+    .swatch-body { background: var(--white); padding: 16px 18px; }
+    .swatch-name { font-weight: 600; font-size: 13px; color: var(--dark); margin-bottom: 4px; }
+    .swatch-hex  { font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 6px; }
+    .swatch-use  { font-size: 10px; font-weight: 300; color: var(--muted); letter-spacing: 0.05em; }
+
+    /* Color guidance */
+    .color-guidance {
+      margin-top: 40px;
+      padding: 28px 36px;
+      background: var(--dark);
+      border-left: 3px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .color-guidance-icon { color: var(--gold); font-size: 22px; flex-shrink: 0; }
+    .color-guidance-text {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* Typography */
+    .typo-section { background: var(--cream); }
+    .typo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .typo-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 40px 36px;
+    }
+    .typo-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: block;
+    }
+    .typo-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      color: var(--dark);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .typo-body-demo {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .typo-weights { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+    .typo-weight-row { display: flex; align-items: baseline; gap: 16px; }
+    .typo-weight-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 80px;
+      flex-shrink: 0;
+    }
+    .typo-weight-sample { color: var(--dark); font-size: 15px; }
+    .typo-meta {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .typo-meta-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .typo-meta-item span:first-child { color: var(--muted); font-weight: 400; }
+    .typo-meta-item span:last-child  { color: var(--dark);  font-weight: 600; }
+
+    /* Imagery */
+    .imagery-section { background: var(--cream2); }
+    .imagery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .imagery-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .imagery-card:hover { box-shadow: 0 12px 36px rgba(0,0,0,0.1); }
+    .imagery-thumb {
+      aspect-ratio: 4/3;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .imagery-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 70%);
+    }
+    .imagery-body { padding: 20px 22px 24px; }
+    .imagery-name { font-weight: 700; font-size: 14px; color: var(--dark); margin-bottom: 8px; }
+    .imagery-desc { font-size: 12px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+
+    /* Voice & Tone */
+    .voice-section { background: var(--dark); padding: 100px 56px; }
+    .voice-inner  { max-width: 1200px; margin: 0 auto; }
+    .voice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .voice-col { }
+    .voice-col-head {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid;
+    }
+    .voice-col-head.do   { color: var(--gold);                  border-color: rgba(201,168,76,0.3); }
+    .voice-col-head.dont { color: rgba(255,255,255,0.35);        border-color: rgba(255,255,255,0.1); }
+    .voice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .voice-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.65;
+    }
+    .voice-list.do-list li   { color: rgba(255,255,255,0.7); }
+    .voice-list.dont-list li { color: rgba(255,255,255,0.35); text-decoration-color: rgba(255,255,255,0.2); }
+    .voice-bullet {
+      width: 6px; height: 6px;
+      flex-shrink: 0;
+      margin-top: 6px;
+      border-radius: 50%;
+    }
+    .do-bullet   { background: var(--gold); }
+    .dont-bullet { background: rgba(255,255,255,0.2); }
+
+    @media (max-width: 1100px) {
+      .traits-grid  { grid-template-columns: repeat(3, 1fr); }
+      .swatches-grid{ grid-template-columns: repeat(3, 1fr); }
+      .imagery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .content-section { padding: 80px 24px; }
+      .voice-section   { padding: 80px 24px; }
+      .traits-grid  { grid-template-columns: repeat(2, 1fr); }
+      .typo-grid    { grid-template-columns: 1fr; }
+      .voice-grid   { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .traits-grid   { grid-template-columns: 1fr 1fr; }
+      .swatches-grid { grid-template-columns: 1fr 1fr; }
+      .imagery-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="brand">
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo" style="display:flex;align-items:center;"><img src="https://vaishvipatel1507.github.io/london-stubble-website-/logo.png" alt="London Stubble" style="height:80px;width:auto;" /></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="brand-style.html" class="active">Brand Style</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about-us.html">About Us</a></li>
+  </ul>
+  <a href="products.html" class="nav-cta">Shop Now</a>
+  <button class="hamburger" id="ham" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-nav" id="mob">
+  <a href="index.html"      onclick="closeMob()">Home</a>
+  <a href="brand-style.html" onclick="closeMob()">Brand Style</a>
+  <a href="categories.html" onclick="closeMob()">Categories</a>
+  <a href="products.html"   onclick="closeMob()">Products</a>
+  <a href="about-us.html"   onclick="closeMob()">About Us</a>
+</div>
+
+<!-- ==================== PAGE HEADER ==================== -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <span class="cur">Brand Style</span>
+    </div>
+    <span class="page-header-ey">Visual &amp; Verbal Identity</span>
+    <h1 class="page-header-title">Brand Style <span>Guide</span></h1>
+    <p class="page-header-sub">The visual and verbal foundation of London Stubble&mdash;clean, confident, masculine, and modern.</p>
+  </div>
+</header>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker-section">
+  <div class="tk-track">
+    <span class="tk-i">Clean</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Confident</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Masculine</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Modern</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">London Made</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Effortless</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Authentic</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Confident</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Masculine</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Modern</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">London Made</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Effortless</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Authentic</span><span class="tk-d">&#10022;</span>
+  </div>
+</div>
+
+<!-- ==================== BRAND PERSONALITY ==================== -->
+<section class="content-section" style="background:var(--dark);">
+  <div class="content-inner">
+    <div class="au">
+      <span class="eyebrow gold">Brand DNA</span>
+      <h2 class="section-title light">Brand <span class="g">Personality</span></h2>
+    </div>
+    <div class="traits-grid">
+      <div class="trait-card au">
+        <div class="trait-icon">C</div>
+        <div class="trait-name">Clean</div>
+        <div class="trait-desc">Pure formulas, minimal aesthetic, no unnecessary clutter</div>
+      </div>
+      <div class="trait-card au">
+        <div class="trait-icon">C</div>
+        <div class="trait-name">Confident</div>
+        <div class="trait-desc">Bold messaging, direct language, strong visual presence</div>
+      </div>
+      <div class="trait-card au">
+        <div class="trait-icon">M</div>
+        <div class="trait-name">Masculine</div>
+        <div class="trait-desc">Dark tones, structured layouts, premium materials</div>
+      </div>
+      <div class="trait-card au">
+        <div class="trait-icon">M</div>
+        <div class="trait-name">Modern</div>
+        <div class="trait-desc">Contemporary design, effortless routines, forward-thinking</div>
+      </div>
+      <div class="trait-card au">
+        <div class="trait-icon">P</div>
+        <div class="trait-name">Premium</div>
+        <div class="trait-desc">Refined details, quality ingredients, elevated experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COLOUR PALETTE ==================== -->
+<section class="content-section palette-section">
+  <div class="content-inner">
+    <div class="sec-hdr au">
+      <div>
+        <span class="eyebrow">Visual Identity</span>
+        <h2 class="section-title">Colour <span class="g">Palette</span></h2>
+      </div>
+    </div>
+    <div class="swatches-grid">
+      <div class="swatch au">
+        <div class="swatch-color" style="background:#111111;"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Charcoal Black</div>
+          <div class="swatch-hex">#111111</div>
+          <div class="swatch-use">Primary &mdash; Backgrounds, text</div>
+        </div>
+      </div>
+      <div class="swatch au">
+        <div class="swatch-color" style="background:#C9A84C;"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">London Gold</div>
+          <div class="swatch-hex">#C9A84C</div>
+          <div class="swatch-use">Accent &mdash; CTAs, highlights</div>
+        </div>
+      </div>
+      <div class="swatch au">
+        <div class="swatch-color" style="background:#F2EDE4; border-bottom:1px solid #e0d8cc;"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Warm Cream</div>
+          <div class="swatch-hex">#F2EDE4</div>
+          <div class="swatch-use">Background &mdash; Page sections</div>
+        </div>
+      </div>
+      <div class="swatch au">
+        <div class="swatch-color" style="background:#EBE5DA; border-bottom:1px solid #d8d0c4;"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Deep Cream</div>
+          <div class="swatch-hex">#EBE5DA</div>
+          <div class="swatch-use">Background &mdash; Alt sections</div>
+        </div>
+      </div>
+      <div class="swatch au">
+        <div class="swatch-color" style="background:#888878;"></div>
+        <div class="swatch-body">
+          <div class="swatch-name">Warm Muted</div>
+          <div class="swatch-hex">#888878</div>
+          <div class="swatch-use">Supporting &mdash; Body copy, labels</div>
+        </div>
+      </div>
+    </div>
+    <div class="color-guidance au">
+      <div class="color-guidance-icon">&#9670;</div>
+      <p class="color-guidance-text">&ldquo;Use charcoal as the dominant base, warm cream for breathing space, and London Gold as the sharp accent that commands attention. Never use gold on more than 20% of any surface.&rdquo;</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TYPOGRAPHY ==================== -->
+<section class="content-section typo-section">
+  <div class="content-inner">
+    <div class="sec-hdr au">
+      <div>
+        <span class="eyebrow">Type System</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+    </div>
+    <div class="typo-grid">
+
+      <div class="typo-card au">
+        <span class="typo-label">Display Typeface &mdash; Bebas Neue</span>
+        <div class="typo-display">London Stubble</div>
+        <div class="typo-display" style="font-size:36px;color:var(--gold);">Sharp. Clean. Groomed.</div>
+        <div class="typo-meta">
+          <div class="typo-meta-item"><span>Font</span><span>Bebas Neue</span></div>
+          <div class="typo-meta-item"><span>Style</span><span>Regular (only weight)</span></div>
+          <div class="typo-meta-item"><span>Use</span><span>Headlines, hero titles, large CTAs</span></div>
+          <div class="typo-meta-item"><span>Case</span><span>Uppercase always</span></div>
+          <div class="typo-meta-item"><span>Tracking</span><span>0.02em &ndash; 0.2em</span></div>
+        </div>
+      </div>
+
+      <div class="typo-card au">
+        <span class="typo-label">Body Typeface &mdash; DM Sans</span>
+        <div class="typo-weights">
+          <div class="typo-weight-row">
+            <span class="typo-weight-label">Light 300</span>
+            <span class="typo-weight-sample" style="font-weight:300;">Premium men's grooming essentials.</span>
+          </div>
+          <div class="typo-weight-row">
+            <span class="typo-weight-label">Regular 400</span>
+            <span class="typo-weight-sample" style="font-weight:400;">Simple routines, visible results.</span>
+          </div>
+          <div class="typo-weight-row">
+            <span class="typo-weight-label">Medium 500</span>
+            <span class="typo-weight-sample" style="font-weight:500;">Crafted in London, 2024.</span>
+          </div>
+          <div class="typo-weight-row">
+            <span class="typo-weight-label">SemiBold 600</span>
+            <span class="typo-weight-sample" style="font-weight:600;">SHOP THE RANGE</span>
+          </div>
+          <div class="typo-weight-row">
+            <span class="typo-weight-label">Bold 700</span>
+            <span class="typo-weight-sample" style="font-weight:700;">Best Sellers</span>
+          </div>
+        </div>
+        <div class="typo-meta">
+          <div class="typo-meta-item"><span>Font</span><span>DM Sans</span></div>
+          <div class="typo-meta-item"><span>Body size</span><span>13&ndash;15px</span></div>
+          <div class="typo-meta-item"><span>Line height</span><span>1.65&ndash;1.85</span></div>
+          <div class="typo-meta-item"><span>Labels</span><span>11px / 0.15&ndash;0.28em tracking</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== IMAGERY STYLE ==================== -->
+<section class="content-section imagery-section">
+  <div class="content-inner">
+    <div class="sec-hdr au">
+      <div>
+        <span class="eyebrow">Art Direction</span>
+        <h2 class="section-title">Imagery <span class="g">Style</span></h2>
+      </div>
+    </div>
+    <div class="imagery-grid">
+      <div class="imagery-card au">
+        <div class="imagery-thumb">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image1.jpeg" alt="Product Photography" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        </div>
+        <div class="imagery-body">
+          <div class="imagery-name">Product Photography</div>
+          <div class="imagery-desc">High&#8209;contrast shots on minimal dark or cream backgrounds. Clean lines, no distractions.</div>
+        </div>
+      </div>
+      <div class="imagery-card au">
+        <div class="imagery-thumb">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image4.jpg" alt="Texture Close-Ups" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        </div>
+        <div class="imagery-body">
+          <div class="imagery-name">Texture Close-Ups</div>
+          <div class="imagery-desc">Close&#8209;ups of beard texture, skin, and water droplets. Tactile, sensory imagery.</div>
+        </div>
+      </div>
+      <div class="imagery-card au">
+        <div class="imagery-thumb">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image2.jpg" alt="Lifestyle Shots" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        </div>
+        <div class="imagery-body">
+          <div class="imagery-name">Lifestyle Shots</div>
+          <div class="imagery-desc">Confident, well&#8209;groomed men in natural settings. Authentic, not staged.</div>
+        </div>
+      </div>
+      <div class="imagery-card au">
+        <div class="imagery-thumb">
+          <img src="https://vaishvipatel1507.github.io/london-stubble-website-/Image3.jpg" alt="Colour Treatment" style="width:100%;height:100%;object-fit:contain;display:block;" />
+        </div>
+        <div class="imagery-body">
+          <div class="imagery-name">Colour Treatment</div>
+          <div class="imagery-desc">Muted, masculine tones with subtle gold highlights. Desaturated where appropriate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VOICE & TONE ==================== -->
+<section class="voice-section">
+  <div class="voice-inner">
+    <div class="au">
+      <span class="eyebrow gold">Communication</span>
+      <h2 class="section-title light">Voice &amp; <span class="g">Tone</span></h2>
+    </div>
+    <div class="voice-grid" style="margin-top:52px;">
+      <div class="voice-col au">
+        <div class="voice-col-head do">We Do</div>
+        <ul class="voice-list do-list">
+          <li><span class="voice-bullet do-bullet"></span>Write in short, direct sentences with no filler</li>
+          <li><span class="voice-bullet do-bullet"></span>Use confident, active language that commands attention</li>
+          <li><span class="voice-bullet do-bullet"></span>Lead with the benefit, not the feature</li>
+          <li><span class="voice-bullet do-bullet"></span>Keep copy tight &mdash; every word earns its place</li>
+          <li><span class="voice-bullet do-bullet"></span>Sound like a trusted friend, not a corporation</li>
+          <li><span class="voice-bullet do-bullet"></span>Celebrate simplicity and routine-building</li>
+        </ul>
+      </div>
+      <div class="voice-col au">
+        <div class="voice-col-head dont">We Don&rsquo;t</div>
+        <ul class="voice-list dont-list">
+          <li><span class="voice-bullet dont-bullet"></span>Use fluffy, vague, or overpromising language</li>
+          <li><span class="voice-bullet dont-bullet"></span>Write long paragraphs &mdash; men skim, keep it scannable</li>
+          <li><span class="voice-bullet dont-bullet"></span>Make false claims or use gimmick-driven messaging</li>
+          <li><span class="voice-bullet dont-bullet"></span>Sound clinical, technical, or like a whitepaper</li>
+          <li><span class="voice-bullet dont-bullet"></span>Use passive voice or hedge with &ldquo;may help&rdquo; language</li>
+          <li><span class="voice-bullet dont-bullet"></span>Overcomplicate the routine or the messaging</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA STRIP ==================== -->
+<div class="vstrip">
+  <div class="vstrip-inner">
+    <span class="vstrip-ey">London Stubble &nbsp;&middot;&nbsp; Est. 2024</span>
+    <h2 class="vstrip-ttl">Grooming Made Simple.<br><span>Results Made Visible.</span></h2>
+    <p class="vstrip-sub">Premium men's grooming essentials crafted in London for the modern man.</p>
+    <div class="vstrip-ctas">
+      <a href="products.html" class="btn-gold">Shop The Range</a>
+      <a href="about-us.html" class="btn-lined-light">Our Story</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="ft-logo">London Stubble</div>
+      <p class="ft-desc">Premium men's grooming essentials crafted in London for the modern man. Clean formulas, visible results.</p>
+      <div class="ft-soc">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="TikTok">TK</a>
+        <a href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Products</div>
+      <ul>
+        <li><a href="products.html">Daily Cleanse Face Wash</a></li>
+        <li><a href="products.html">Hydrate &amp; Repair Serum</a></li>
+        <li><a href="products.html">Beard Softening Serum</a></li>
+        <li><a href="products.html">Beard Growth Serum</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Company</div>
+      <ul>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="brand-style.html">Brand Style</a></li>
+        <li><a href="categories.html">Ingredients</a></li>
+        <li><a href="#">Stockists</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Contact</div>
+      <ul>
+        <li><a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Shipping &amp; Returns</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span class="ft-copy">&copy; 2024 London Stubble. All rights reserved.</span>
+    <span class="ft-tag">Crafted in London &nbsp;&middot;&nbsp; Clean Formulas &nbsp;&middot;&nbsp; Visible Results</span>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+    document.body.style.overflow = mob.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMob() {
+    ham.classList.remove('open'); mob.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.transition = 'opacity 0.75s ease, transform 0.75s ease';
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'none';
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.au, .al, .ar').forEach(el => observer.observe(el));
+  function handleNL(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.nl-btn');
+    btn.textContent = 'Subscribed!';
+    btn.style.background = '#4caf50'; btn.style.borderColor = '#4caf50';
+    setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; btn.style.borderColor = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
