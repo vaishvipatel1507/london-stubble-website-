@@ -156,6 +156,35 @@
     /* Spread-out image for collagen product */
     .prod-row-img.img-cover img { object-fit: cover !important; }
 
+    /* See More toggle */
+    .prod-more-wrap {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.45s ease, opacity 0.35s ease;
+    }
+    .prod-more-wrap.open {
+      max-height: 1000px;
+      opacity: 1;
+    }
+    .see-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: #1a6fcc;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 10px 0 18px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .see-more-btn:hover { color: #0f4fa0; }
+    .see-more-btn .arr { font-style: normal; font-size: 11px; }
+
     /* Image zoom */
     .prod-row-img { cursor: crosshair; }
     #zoomLens {
@@ -291,8 +320,11 @@
           <div class="prod-row-feat">All skin types</div>
         </div>
 
-        <div class="prod-how-title">How To Use</div>
-        <p class="prod-how-text">"Wet face, apply a small amount and massage in circular motions. Rinse thoroughly. Use morning and night for best results."</p>
+        <button class="see-more-btn" onclick="toggleMore(this)"><span class="arr">&#9660;</span> See more</button>
+        <div class="prod-more-wrap">
+          <div class="prod-how-title">How To Use</div>
+          <p class="prod-how-text">"Wet face, apply a small amount and massage in circular motions. Rinse thoroughly. Use morning and night for best results."</p>
+        </div>
 
         <div class="prod-row-cta">
           <button class="btn-gold">Add to Cart</button>
@@ -331,20 +363,23 @@
           <div class="prod-row-feat">Pure Skin Illumination</div>
         </div>
 
-        <div class="prod-row-feats-title" style="margin-top:20px;">Product Details</div>
-        <table class="prod-spec-table">
-          <tr><td>Brand</td><td>London Stubble</td></tr>
-          <tr><td>Item Weight</td><td>120 Grams</td></tr>
-          <tr><td>Dimensions</td><td>45 &times; 45 &times; 110 mm</td></tr>
-          <tr><td>Scent</td><td>Clean, Fresh</td></tr>
-          <tr><td>Skin Type</td><td>Combination, Normal, Oily</td></tr>
-          <tr><td>Active Ingredient</td><td>Collagen Peptides</td></tr>
-          <tr><td>Special Feature</td><td>Collagen Peptide Infused, Crystal Foam Formula, Pure Skin Illumination, Reduces Wrinkles</td></tr>
-          <tr><td>Package Quantity</td><td>1</td></tr>
-        </table>
-
-        <div class="prod-how-title">How To Use</div>
-        <p class="prod-how-text">"Apply a small amount onto a wet face, massage gently in circular motions, rinse with water, and pat dry. Use morning and evening for visible anti&#8209;ageing results."</p>
+        <button class="see-more-btn" onclick="toggleMore(this)"><span class="arr">&#9660;</span> See more</button>
+        <div class="prod-more-wrap">
+          <div class="prod-row-feats-title" style="margin-top:4px;">Product Details</div>
+          <table class="prod-spec-table">
+            <tr><td>Brand</td><td>London Stubble</td></tr>
+            <tr><td>Item Weight</td><td>120 Grams</td></tr>
+            <tr><td>Dimensions</td><td>45 &times; 45 &times; 110 mm</td></tr>
+            <tr><td>Scent</td><td>Clean, Fresh</td></tr>
+            <tr><td>Skin Type</td><td>Combination, Normal, Oily</td></tr>
+            <tr><td>Age Range</td><td>Adult</td></tr>
+            <tr><td>Active Ingredient</td><td>Collagen Peptides</td></tr>
+            <tr><td>Special Feature</td><td>Collagen Peptide Infused, Crystal Foam Formula, Pure Skin Illumination, Reduces Wrinkles</td></tr>
+            <tr><td>Package Quantity</td><td>1</td></tr>
+          </table>
+          <div class="prod-how-title">How To Use</div>
+          <p class="prod-how-text">"Apply a small amount onto a wet face, massage gently in circular motions, rinse with water, and pat dry. Use morning and evening for visible anti&#8209;ageing results."</p>
+        </div>
 
         <div class="prod-row-cta">
           <button class="btn-gold">Add to Cart</button>
@@ -376,8 +411,11 @@
           <div class="prod-row-feat">Post&#8209;shave friendly</div>
         </div>
 
-        <div class="prod-how-title">How To Use</div>
-        <p class="prod-how-text">"Apply 2&ndash;3 drops after cleansing, before moisturiser. Gently press into skin until fully absorbed. Use morning and night."</p>
+        <button class="see-more-btn" onclick="toggleMore(this)"><span class="arr">&#9660;</span> See more</button>
+        <div class="prod-more-wrap">
+          <div class="prod-how-title">How To Use</div>
+          <p class="prod-how-text">"Apply 2&ndash;3 drops after cleansing, before moisturiser. Gently press into skin until fully absorbed. Use morning and night."</p>
+        </div>
 
         <div class="prod-row-cta">
           <button class="btn-gold">Add to Cart</button>
@@ -409,8 +447,11 @@
           <div class="prod-row-feat">Stubble to full beard</div>
         </div>
 
-        <div class="prod-how-title">How To Use</div>
-        <p class="prod-how-text">"Apply a few drops to your beard and massage through evenly from root to tip. Use daily on clean, dry or slightly damp beard."</p>
+        <button class="see-more-btn" onclick="toggleMore(this)"><span class="arr">&#9660;</span> See more</button>
+        <div class="prod-more-wrap">
+          <div class="prod-how-title">How To Use</div>
+          <p class="prod-how-text">"Apply a few drops to your beard and massage through evenly from root to tip. Use daily on clean, dry or slightly damp beard."</p>
+        </div>
 
         <div class="prod-row-cta">
           <button class="btn-gold">Add to Cart</button>
@@ -559,6 +600,15 @@
       this.classList.add('active');
     });
   });
+
+  /* ── See More Toggle ── */
+  function toggleMore(btn) {
+    const wrap = btn.nextElementSibling;
+    const isOpen = wrap.classList.toggle('open');
+    const arr = btn.querySelector('.arr');
+    arr.innerHTML = isOpen ? '&#9650;' : '&#9660;';
+    btn.innerHTML = arr.outerHTML + (isOpen ? ' See less' : ' See more');
+  }
 
   /* ── Product Image Zoom ── */
   (function() {
