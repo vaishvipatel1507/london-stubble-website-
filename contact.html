@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us – London Stubble</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== CONTACT PAGE ===== */
+
+    /* Info + Form Layout */
+    .contact-page-section { background: var(--cream); padding: 100px 56px; }
+    .contact-page-inner   { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+    @media (max-width: 960px) {
+      .contact-page-section { padding: 80px 24px; }
+      .contact-page-inner   { grid-template-columns: 1fr; gap: 56px; }
+    }
+
+    /* Left column — info */
+    .contact-info-side .section-title { margin-bottom: 20px; }
+    .contact-intro { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.85; margin-bottom: 48px; }
+    .cinfo-block   { display: flex; flex-direction: column; gap: 28px; }
+    .cinfo-item    { display: flex; align-items: flex-start; gap: 18px; }
+    .cinfo-icon    {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--dark); display: flex; align-items: center; justify-content: center;
+    }
+    .cinfo-icon svg { width: 20px; height: 20px; }
+    .cinfo-label   { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark); margin-bottom: 4px; }
+    .cinfo-value   { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+    .cinfo-value a { color: var(--gold); text-decoration: none; }
+    .cinfo-value a:hover { text-decoration: underline; }
+
+    .cinfo-divider { border: none; border-top: 1px solid rgba(0,0,0,0.1); margin: 40px 0; }
+
+    .cinfo-social-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark); margin-bottom: 16px; }
+    .cinfo-socials { display: flex; gap: 12px; }
+    .cinfo-soc-btn {
+      width: 40px; height: 40px; background: var(--dark); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .cinfo-soc-btn:hover { background: var(--gold); color: var(--dark); }
+
+    /* Right column — form */
+    .contact-form-side { background: var(--white); padding: 48px 44px; }
+    @media (max-width: 600px) { .contact-form-side { padding: 36px 24px; } }
+
+    .contact-form-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.04em; color: var(--dark); margin-bottom: 8px; }
+    .contact-form-sub   { font-size: 13px; font-weight: 300; color: var(--muted); margin-bottom: 36px; line-height: 1.7; }
+
+    .contact-form    { display: flex; flex-direction: column; gap: 24px; }
+    .contact-row     { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 600px) { .contact-row { grid-template-columns: 1fr; } }
+    .contact-field   { display: flex; flex-direction: column; gap: 8px; }
+    .contact-label   { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark); }
+    .contact-input,
+    .contact-textarea {
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.10);
+      padding: 16px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 300;
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .contact-input::placeholder,
+    .contact-textarea::placeholder { color: var(--muted); }
+    .contact-input:focus,
+    .contact-textarea:focus { border-color: var(--gold); background: var(--white); }
+    .contact-textarea { resize: vertical; min-height: 130px; }
+    .contact-select {
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.10);
+      padding: 16px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 300;
+      color: var(--dark);
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+    }
+    .contact-select:focus { border-color: var(--gold); background-color: var(--white); }
+    .contact-submit {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: var(--dark);
+      border: none; cursor: pointer;
+      padding: 18px 36px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+    .contact-submit:hover { background: #b8943e; transform: translateY(-2px); }
+
+    /* Map / Hours strip */
+    .contact-hours-strip { background: var(--dark); padding: 80px 56px; }
+    .contact-hours-inner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    @media (max-width: 900px) {
+      .contact-hours-strip { padding: 60px 24px; }
+      .contact-hours-inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .ch-block { }
+    .ch-icon   { width: 40px; height: 40px; margin-bottom: 18px; }
+    .ch-icon svg { width: 40px; height: 40px; }
+    .ch-title  { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; color: var(--white); margin-bottom: 10px; }
+    .ch-body   { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.8; }
+    .ch-body a { color: var(--gold); text-decoration: none; }
+    .ch-body a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo" style="display:flex;align-items:center;"><img src="logo.png" alt="London Stubble" style="height:80px;width:auto;" /></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about-us.html">About Us</a></li>
+    <li><a href="contact.html" class="active">Contact Us</a></li>
+  </ul>
+  <a href="products.html" class="nav-cta">Shop Now</a>
+  <button class="hamburger" id="ham" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-nav" id="mob">
+  <a href="index.html"       onclick="closeMob()">Home</a>
+  <a href="categories.html"  onclick="closeMob()">Categories</a>
+  <a href="products.html"    onclick="closeMob()">Products</a>
+  <a href="about-us.html"    onclick="closeMob()">About Us</a>
+  <a href="contact.html"     onclick="closeMob()">Contact Us</a>
+</div>
+
+<!-- ==================== PAGE HEADER ==================== -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <span class="cur">Contact Us</span>
+    </div>
+    <span class="page-header-ey">Get In Touch</span>
+    <h1 class="page-header-title">Contact <span>London Stubble</span></h1>
+    <p class="page-header-sub">We&rsquo;d love to hear from you. Reach out for questions, wholesale enquiries, or just to say hello.</p>
+  </div>
+</header>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker-section">
+  <div class="tk-track">
+    <span class="tk-i">Crafted in London</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Est. 2024</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean Formulas</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">No Nonsense</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium Ingredients</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Everyday Confidence</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Crafted in London</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Est. 2024</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Clean Formulas</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">No Nonsense</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Premium Ingredients</span><span class="tk-d">&#10022;</span>
+    <span class="tk-i">Everyday Confidence</span><span class="tk-d">&#10022;</span>
+  </div>
+</div>
+
+<!-- ==================== CONTACT SECTION ==================== -->
+<section class="contact-page-section">
+  <div class="contact-page-inner">
+
+    <!-- LEFT: Info -->
+    <div class="contact-info-side au">
+      <span class="eyebrow">Let&rsquo;s Talk</span>
+      <h2 class="section-title">We&rsquo;re Here to <span class="g">Help</span></h2>
+      <p class="contact-intro">Have a question about a product, a wholesale enquiry, or want to share feedback? Send us a message and we&rsquo;ll get back to you within 24 hours.</p>
+
+      <div class="cinfo-block">
+        <div class="cinfo-item">
+          <div class="cinfo-icon">
+            <!-- Email icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 7l10 7 10-7"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cinfo-label">Email</div>
+            <div class="cinfo-value"><a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a></div>
+          </div>
+        </div>
+
+        <div class="cinfo-item">
+          <div class="cinfo-icon">
+            <!-- Location icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cinfo-label">Based In</div>
+            <div class="cinfo-value">London, United Kingdom</div>
+          </div>
+        </div>
+
+        <div class="cinfo-item">
+          <div class="cinfo-icon">
+            <!-- Clock icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cinfo-label">Response Time</div>
+            <div class="cinfo-value">Within 24 hours,<br>Monday – Friday</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="cinfo-divider" />
+
+      <div class="cinfo-social-label">Follow Us</div>
+      <div class="cinfo-socials">
+        <a href="#" class="cinfo-soc-btn" aria-label="Instagram">IG</a>
+        <a href="#" class="cinfo-soc-btn" aria-label="TikTok">TK</a>
+        <a href="#" class="cinfo-soc-btn" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="contact-form-side au">
+      <div class="contact-form-title">Send Us a Message</div>
+      <div class="contact-form-sub">All fields marked * are required. We typically respond within one business day.</div>
+      <form class="contact-form" onsubmit="handleContact(event)">
+        <div class="contact-row">
+          <div class="contact-field">
+            <label class="contact-label">First Name *</label>
+            <input class="contact-input" type="text" placeholder="Your first name" required />
+          </div>
+          <div class="contact-field">
+            <label class="contact-label">Last Name</label>
+            <input class="contact-input" type="text" placeholder="Your last name" />
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-field">
+            <label class="contact-label">Email Address *</label>
+            <input class="contact-input" type="email" placeholder="your@email.com" required />
+          </div>
+          <div class="contact-field">
+            <label class="contact-label">Phone Number</label>
+            <input class="contact-input" type="tel" placeholder="+44 7700 000000" />
+          </div>
+        </div>
+        <div class="contact-field">
+          <label class="contact-label">Enquiry Type</label>
+          <select class="contact-select">
+            <option value="" disabled selected>Select a topic</option>
+            <option value="product">Product Question</option>
+            <option value="order">Order &amp; Shipping</option>
+            <option value="wholesale">Wholesale / Trade</option>
+            <option value="feedback">Feedback</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="contact-field">
+          <label class="contact-label">Message *</label>
+          <textarea class="contact-textarea" placeholder="How can we help you?" required></textarea>
+        </div>
+        <button class="contact-submit" type="submit">Send Message &nbsp;&#8594;</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== INFO STRIP ==================== -->
+<section class="contact-hours-strip">
+  <div class="contact-hours-inner">
+
+    <div class="ch-block au">
+      <div class="ch-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="8" width="28" height="24" rx="3"/>
+          <path d="M6 14h28"/>
+          <path d="M13 5v6M27 5v6"/>
+          <path d="M12 22h6M12 27h10"/>
+        </svg>
+      </div>
+      <div class="ch-title">Working Hours</div>
+      <div class="ch-body">
+        Monday – Friday<br>
+        9:00 AM – 5:30 PM (GMT)<br><br>
+        We&rsquo;re closed on weekends and UK bank holidays.
+      </div>
+    </div>
+
+    <div class="ch-block au">
+      <div class="ch-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="8" width="30" height="22" rx="3"/>
+          <path d="M5 13l15 10 15-10"/>
+        </svg>
+      </div>
+      <div class="ch-title">Email Us</div>
+      <div class="ch-body">
+        For general enquiries:<br>
+        <a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a><br><br>
+        For wholesale &amp; trade:<br>
+        <a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a>
+      </div>
+    </div>
+
+    <div class="ch-block au">
+      <div class="ch-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 4C13.373 4 8 9.373 8 16c0 9 12 20 12 20s12-11 12-20c0-6.627-5.373-12-12-12z"/>
+          <circle cx="20" cy="16" r="4"/>
+        </svg>
+      </div>
+      <div class="ch-title">Our Location</div>
+      <div class="ch-body">
+        London Stubble<br>
+        London, United Kingdom<br><br>
+        Products crafted &amp; dispatched from London.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== CTA STRIP ==================== -->
+<div class="vstrip">
+  <div class="vstrip-inner">
+    <span class="vstrip-ey">London Stubble &nbsp;&middot;&nbsp; Est. 2024</span>
+    <h2 class="vstrip-ttl">Grooming Made Simple.<br><span>Results Made Visible.</span></h2>
+    <p class="vstrip-sub">Premium men's grooming essentials crafted in London for the modern man.</p>
+    <div class="vstrip-ctas">
+      <a href="products.html"   class="btn-gold">Shop The Range</a>
+      <a href="categories.html" class="btn-lined-light">Browse Categories</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="ft-logo">London Stubble</div>
+      <p class="ft-desc">Premium men's grooming essentials crafted in London for the modern man. Clean formulas, visible results.</p>
+      <div class="ft-soc">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="TikTok">TK</a>
+        <a href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Products</div>
+      <ul>
+        <li><a href="products.html">Daily Cleanse Face Wash</a></li>
+        <li><a href="products.html">Hydrate &amp; Repair Serum</a></li>
+        <li><a href="products.html">Beard Softening Serum</a></li>
+        <li><a href="products.html">Beard Growth Serum</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Company</div>
+      <ul>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="#">Stockists</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-h">Contact</div>
+      <ul>
+        <li><a href="mailto:hello@londonstubble.com">hello@londonstubble.com</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Shipping &amp; Returns</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span class="ft-copy">&copy; 2024 London Stubble. All rights reserved.</span>
+    <span class="ft-tag">Crafted in London &nbsp;&middot;&nbsp; Clean Formulas &nbsp;&middot;&nbsp; Visible Results</span>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+    document.body.style.overflow = mob.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMob() {
+    ham.classList.remove('open'); mob.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.transition = 'opacity 0.75s ease, transform 0.75s ease';
+        el.target.style.opacity = '1'; el.target.style.transform = 'none';
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.au, .al, .ar').forEach(el => observer.observe(el));
+
+  function handleContact(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.contact-submit');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = '#2a6a2a';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
