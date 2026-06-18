@@ -185,29 +185,7 @@
     .see-more-btn:hover { color: #0f4fa0; }
     .see-more-btn .arr { font-style: normal; font-size: 11px; }
 
-    /* Image zoom */
-    .prod-row-img { cursor: crosshair; }
-    #zoomLens {
-      position: fixed;
-      display: none;
-      width: 130px; height: 130px;
-      border: 2px solid var(--gold);
-      background: rgba(201,168,76,0.08);
-      pointer-events: none;
-      z-index: 9998;
-      box-sizing: border-box;
-    }
-    #zoomPanel {
-      position: fixed;
-      display: none;
-      width: 420px; height: 420px;
-      border: 1px solid rgba(0,0,0,0.12);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-      background: #fff no-repeat;
-      pointer-events: none;
-      z-index: 9999;
-      overflow: hidden;
-    }
+    .prod-row-img { cursor: default; }
 
     @media (max-width: 1100px) {
       .prod-row { grid-template-columns: 1fr; }
@@ -590,80 +568,6 @@
     btn.innerHTML = arr.outerHTML + (isOpen ? ' See less' : ' See more');
   }
 
-  /* ── Product Image Zoom ── */
-  (function() {
-    const lens  = document.createElement('div'); lens.id  = 'zoomLens';
-    const panel = document.createElement('div'); panel.id = 'zoomPanel';
-    document.body.appendChild(lens);
-    document.body.appendChild(panel);
-
-    const LENS_W = 130, LENS_H = 130;
-    const PANEL_W = 420, PANEL_H = 420;
-
-    let activeImg = null, activeRect = null;
-
-    function getZoomScale(img, rect) {
-      const nw = img.naturalWidth  || rect.width  * 3;
-      const nh = img.naturalHeight || rect.height * 3;
-      return { sx: nw / rect.width, sy: nh / rect.height };
-    }
-
-    function update(e, container, img) {
-      const rect = container.getBoundingClientRect();
-      const mx = e.clientX, my = e.clientY;
-
-      /* clamp lens inside image */
-      let lx = mx - LENS_W / 2;
-      let ly = my - LENS_H / 2;
-      lx = Math.max(rect.left,  Math.min(lx, rect.right  - LENS_W));
-      ly = Math.max(rect.top,   Math.min(ly, rect.bottom - LENS_H));
-
-      lens.style.left = lx + 'px';
-      lens.style.top  = ly + 'px';
-
-      /* offset of lens within image */
-      const ox = lx - rect.left;
-      const oy = ly - rect.top;
-
-      const { sx, sy } = getZoomScale(img, rect);
-      const zx = PANEL_W / LENS_W;
-      const zy = PANEL_H / LENS_H;
-
-      panel.style.backgroundImage    = `url('${img.src}')`;
-      panel.style.backgroundSize     = `${rect.width * sx * zx}px ${rect.height * sy * zy}px`;
-      panel.style.backgroundPosition = `-${ox * sx * zx}px -${oy * sy * zy}px`;
-
-      /* place panel to the right; fall back to left if no room */
-      let px = rect.right + 20;
-      if (px + PANEL_W > window.innerWidth - 8) px = rect.left - PANEL_W - 20;
-      let py = rect.top;
-      py = Math.max(8, Math.min(py, window.innerHeight - PANEL_H - 8));
-
-      panel.style.left = px + 'px';
-      panel.style.top  = py + 'px';
-    }
-
-    document.querySelectorAll('.prod-row-img').forEach(container => {
-      const img = container.querySelector('img');
-      if (!img) return;
-
-      container.addEventListener('mouseenter', e => {
-        activeImg  = img;
-        activeRect = container.getBoundingClientRect();
-        lens.style.display  = 'block';
-        panel.style.display = 'block';
-        update(e, container, img);
-      });
-
-      container.addEventListener('mousemove', e => update(e, container, img));
-
-      container.addEventListener('mouseleave', () => {
-        lens.style.display  = 'none';
-        panel.style.display = 'none';
-        activeImg = null;
-      });
-    });
-  })();
 </script>
 </body>
 </html>
