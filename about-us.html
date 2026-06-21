@@ -521,55 +521,6 @@
   </div>
 </section>
 
-<!-- ==================== CONTACT FORM ==================== -->
-<section class="contact-section">
-  <div class="contact-inner">
-    <div class="au">
-      <span class="eyebrow">Get In Touch</span>
-      <h2 class="section-title" style="margin-bottom:20px;">Contact <span class="g">Us</span></h2>
-    </div>
-    <p class="contact-intro au">Have a question, feedback, or wholesale enquiry? Fill in the form below and we&rsquo;ll get back to you within 24 hours. We&rsquo;d love to hear from London Stubble.</p>
-    <form class="contact-form au" onsubmit="handleContact(event)">
-      <div class="contact-row">
-        <div class="contact-field">
-          <label class="contact-label">First Name</label>
-          <input class="contact-input" type="text" placeholder="Your first name" required />
-        </div>
-        <div class="contact-field">
-          <label class="contact-label">Email Address</label>
-          <input class="contact-input" type="email" placeholder="your@email.com" required />
-        </div>
-      </div>
-      <div class="contact-field">
-        <label class="contact-label">Phone Number (Optional)</label>
-        <input class="contact-input" type="tel" placeholder="+44 7700 000000" />
-      </div>
-      <div class="contact-field">
-        <label class="contact-label">Message (Optional)</label>
-        <textarea class="contact-textarea" placeholder="Any questions, feedback, or wholesale enquiries..."></textarea>
-      </div>
-      <button class="contact-submit" type="submit">Send Message &nbsp;&#8594;</button>
-    </form>
-  </div>
-</section>
-<script>
-  function handleContact(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.contact-submit');
-    btn.textContent = 'Message Sent ✓';
-    btn.style.background = '#2a6a2a';
-    btn.style.color = '#fff';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Send Message →';
-      btn.style.background = '';
-      btn.style.color = '';
-      btn.disabled = false;
-      e.target.reset();
-    }, 3000);
-  }
-</script>
-
 <!-- ==================== CTA SECTION ==================== -->
 <section class="cta-section">
   <div class="cta-inner">
